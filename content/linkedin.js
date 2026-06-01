@@ -2,18 +2,35 @@
 
 const SITE_KEY = "linkedin";
 
-// Individual post/update cards in the feed
-const FEED_SELECTORS = [
-  ".occludable-update",              // each feed post wrapper
-  ".feed-shared-update-v2",          // post content card
-  ".scaffold-finite-scroll__content > div > div", // feed items container children
-  // Right sidebar
-  ".scaffold-layout__aside",         // "People you may know", "News" etc.
-  // "Add to your feed" suggestions
-  ".follows-recommendation-card",
-];
+function hideFeed() {
+  const main = document.querySelector("main");
+  if (!main) return;
 
-// Only hide on the main feed page
+  // Method 1: each post is an <article> inside main
+  main.querySelectorAll("article").forEach(el => el.classList.add(HIDDEN_CLASS));
+
+  // Method 2: data-urn on post wrappers (stable LinkedIn identifier)
+  main.querySelectorAll("[data-urn]").forEach(el => {
+    const urn = el.getAttribute("data-urn") || "";
+    if (urn.includes(":activity:") || urn.includes(":aggregate:") || urn.includes(":sponsored:") || urn.includes(":ugcPost:")) {
+      el.classList.add(HIDDEN_CLASS);
+    }
+  });
+
+  // Method 3: class-based fallback (may change after LinkedIn redesigns)
+  [
+    ".occludable-update",
+    ".feed-shared-update-v2",
+  ].forEach(sel => main.querySelectorAll(sel).forEach(el => el.classList.add(HIDDEN_CLASS)));
+
+  // Right sidebar: LinkedIn News, Puzzles, Premium upsells
+  document.querySelectorAll(".scaffold-layout__aside").forEach(el => el.classList.add(HIDDEN_CLASS));
+}
+
+function showFeed() {
+  document.querySelectorAll(`.${HIDDEN_CLASS}`).forEach(el => el.classList.remove(HIDDEN_CLASS));
+}
+
 function isFeedPage() {
   return location.pathname === "/feed/" ||
          location.pathname === "/feed" ||
@@ -24,11 +41,14 @@ let observer = null;
 
 function applyHiding(enabled) {
   if (enabled && isFeedPage()) {
-    if (!observer) observer = watchAndHide(FEED_SELECTORS);
-    else hideElements(FEED_SELECTORS);
+    hideFeed();
+    if (!observer) {
+      observer = new MutationObserver(hideFeed);
+      observer.observe(document.body || document.documentElement, { childList: true, subtree: true });
+    }
   } else {
     if (observer) { observer.disconnect(); observer = null; }
-    showElements(FEED_SELECTORS);
+    showFeed();
   }
 }
 

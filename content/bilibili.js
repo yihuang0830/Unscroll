@@ -24,7 +24,8 @@ const FEED_SELECTORS = [
 
 // Pages where we should NOT hide (search results, video player main content)
 function isSearchOrVideoPage() {
-  return /^\/search\//.test(location.pathname) ||
+  return location.hostname === "search.bilibili.com" || // search results subdomain
+         /^\/search\//.test(location.pathname) ||
          /^\/video\//.test(location.pathname) ||
          /^\/bangumi\//.test(location.pathname) ||
          /^\/read\//.test(location.pathname);

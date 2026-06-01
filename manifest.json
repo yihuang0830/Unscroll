@@ -1,0 +1,45 @@
+{
+  "manifest_version": 3,
+  "name": "FocusFeed – Hide Social Distractions",
+  "version": "1.0.0",
+  "description": "Hide recommendation feeds on Bilibili, 小红书, and Instagram so you can search without getting sucked in.",
+  "permissions": ["storage"],
+  "host_permissions": [
+    "*://*.bilibili.com/*",
+    "*://*.xiaohongshu.com/*",
+    "*://*.instagram.com/*"
+  ],
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.bilibili.com/*"],
+      "js": ["content/common.js", "content/bilibili.js"],
+      "css": ["content/bilibili.css"],
+      "run_at": "document_end"
+    },
+    {
+      "matches": ["*://*.xiaohongshu.com/*"],
+      "js": ["content/common.js", "content/xiaohongshu.js"],
+      "css": ["content/xiaohongshu.css"],
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["*://*.instagram.com/*"],
+      "js": ["content/common.js", "content/instagram.js"],
+      "css": ["content/instagram.css"],
+      "run_at": "document_start"
+    }
+  ]
+}

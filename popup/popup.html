@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FocusFeed</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      width: 260px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #0f0f0f;
+      color: #f0f0f0;
+    }
+
+    header {
+      padding: 16px 18px 12px;
+      border-bottom: 1px solid #222;
+    }
+    header h1 {
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+    header p {
+      font-size: 11px;
+      color: #888;
+      margin-top: 3px;
+    }
+
+    .site-list {
+      padding: 8px 0;
+    }
+
+    .site-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 18px;
+      transition: background 0.15s;
+    }
+    .site-row:hover { background: #1a1a1a; }
+
+    .site-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .site-emoji { font-size: 18px; line-height: 1; }
+    .site-name { font-size: 13px; font-weight: 500; }
+
+    /* Toggle switch */
+    .toggle {
+      position: relative;
+      width: 40px;
+      height: 22px;
+      flex-shrink: 0;
+    }
+    .toggle input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute;
+      inset: 0;
+      background: #333;
+      border-radius: 22px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .slider::before {
+      content: "";
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      left: 3px;
+      top: 3px;
+      background: #fff;
+      border-radius: 50%;
+      transition: transform 0.2s;
+    }
+    .toggle input:checked + .slider { background: #4f8ef7; }
+    .toggle input:checked + .slider::before { transform: translateX(18px); }
+
+    footer {
+      padding: 10px 18px;
+      border-top: 1px solid #222;
+      font-size: 10px;
+      color: #555;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>FocusFeed</h1>
+    <p>屏蔽推荐 feed，专注搜索</p>
+  </header>
+
+  <div class="site-list">
+    <div class="site-row">
+      <div class="site-info">
+        <span class="site-emoji">📺</span>
+        <span class="site-name">Bilibili</span>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="toggle-bilibili" />
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="site-row">
+      <div class="site-info">
+        <span class="site-emoji">📕</span>
+        <span class="site-name">小红书</span>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="toggle-xiaohongshu" />
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="site-row">
+      <div class="site-info">
+        <span class="site-emoji">📸</span>
+        <span class="site-name">Instagram</span>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="toggle-instagram" />
+        <span class="slider"></span>
+      </label>
+    </div>
+  </div>
+
+  <footer>开启 = 隐藏推荐 feed</footer>
+
+  <script src="popup.js"></script>
+</body>
+</html>

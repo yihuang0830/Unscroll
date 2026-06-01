@@ -1,15 +1,14 @@
 {
   "manifest_version": 3,
   "name": "FocusFeed – Hide Social Distractions",
-  "version": "1.0.0",
-  "description": "Hide recommendation feeds on Bilibili, 小红书, and Instagram so you can search without getting sucked in.",
+  "version": "1.1.0",
+  "description": "Hide recommendation feeds on Bilibili, 小红书, YouTube, Reddit, and Instagram. Supports scheduled activation.",
   "permissions": ["storage"],
   "host_permissions": [
     "*://*.bilibili.com/*",
     "*://*.xiaohongshu.com/*",
     "*://*.instagram.com/*",
     "*://*.youtube.com/*",
-    "*://*.linkedin.com/*",
     "*://*.reddit.com/*"
   ],
   "action": {
@@ -48,12 +47,6 @@
       "matches": ["*://*.youtube.com/*"],
       "js": ["content/common.js", "content/youtube.js"],
       "css": ["content/youtube.css"],
-      "run_at": "document_end"
-    },
-    {
-      "matches": ["*://*.linkedin.com/*"],
-      "js": ["content/common.js", "content/linkedin.js"],
-      "css": ["content/linkedin.css"],
       "run_at": "document_end"
     },
     {

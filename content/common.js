@@ -1,5 +1,4 @@
-// Shared utility: apply or remove the hidden class on matched elements.
-// Retries with MutationObserver because feeds are often injected after DOMContentLoaded.
+// Shared utilities loaded before every site-specific content script.
 
 const HIDDEN_CLASS = "focusfeed-hidden";
 
@@ -17,11 +16,29 @@ function showElements(selectors) {
 
 function watchAndHide(selectors) {
   hideElements(selectors);
-
   const observer = new MutationObserver(() => hideElements(selectors));
   observer.observe(document.body || document.documentElement, {
     childList: true,
     subtree: true,
   });
   return observer;
+}
+
+// Returns true when the current time falls inside the user's schedule,
+// or when no schedule is configured (always active).
+function isWithinSchedule(schedule) {
+  if (!schedule || !schedule.enabled) return true;
+
+  const now = new Date();
+  const cur = now.getHours() * 60 + now.getMinutes();
+
+  const [sh, sm] = (schedule.start || "00:00").split(":").map(Number);
+  const [eh, em] = (schedule.end   || "23:59").split(":").map(Number);
+  const start = sh * 60 + sm;
+  const end   = eh * 60 + em;
+
+  // Handle overnight ranges e.g. 22:00 – 06:00
+  return start <= end
+    ? cur >= start && cur < end
+    : cur >= start || cur < end;
 }

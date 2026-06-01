@@ -1,18 +1,12 @@
-// 小红书 – hide explore feed while keeping header + search
-
 const SITE_KEY = "xiaohongshu";
 
 const FEED_SELECTORS = [
-  // Homepage discovery/explore feed
   ".feeds-container",
   ".note-list",
   ".explore-feed",
-  // Individual note cards in the feed
   "section.note-item",
   ".note-item",
-  // Homepage topic/channel tabs that lead to feeds
   ".home-feed-tab",
-  // 发现页 waterfall
   ".waterfall-container",
   "#exploreFeeds",
   ".channel-container .feeds-list",
@@ -26,8 +20,8 @@ function isSearchOrNotePage() {
 
 let observer = null;
 
-function applyHiding(enabled) {
-  if (enabled && !isSearchOrNotePage()) {
+function applyHiding(siteEnabled, schedule) {
+  if (siteEnabled && isWithinSchedule(schedule) && !isSearchOrNotePage()) {
     if (!observer) observer = watchAndHide(FEED_SELECTORS);
     else hideElements(FEED_SELECTORS);
   } else {
@@ -36,22 +30,25 @@ function applyHiding(enabled) {
   }
 }
 
-chrome.storage.sync.get(SITE_KEY, result => {
-  applyHiding(result[SITE_KEY] !== false);
-});
+function reload() {
+  chrome.storage.sync.get([SITE_KEY, "schedule"], r => {
+    applyHiding(r[SITE_KEY] !== false, r.schedule);
+  });
+}
+
+reload();
+setInterval(reload, 60000);
 
 chrome.runtime.onMessage.addListener(msg => {
-  if (msg.type === "TOGGLE" && msg.site === SITE_KEY) {
-    applyHiding(msg.enabled);
-  }
+  if (msg.type === "TOGGLE" && msg.site === SITE_KEY) reload();
+  if (msg.type === "SCHEDULE_CHANGED") reload();
 });
 
 let lastPath = location.pathname;
 new MutationObserver(() => {
   if (location.pathname !== lastPath) {
     lastPath = location.pathname;
-    chrome.storage.sync.get(SITE_KEY, result => {
-      applyHiding(result[SITE_KEY] !== false);
-    });
+    if (observer) { observer.disconnect(); observer = null; }
+    reload();
   }
 }).observe(document, { subtree: true, childList: true });

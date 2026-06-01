@@ -18,20 +18,10 @@
       padding: 16px 18px 12px;
       border-bottom: 1px solid #222;
     }
-    header h1 {
-      font-size: 15px;
-      font-weight: 600;
-      letter-spacing: 0.3px;
-    }
-    header p {
-      font-size: 11px;
-      color: #888;
-      margin-top: 3px;
-    }
+    header h1 { font-size: 15px; font-weight: 600; letter-spacing: 0.3px; }
+    header p  { font-size: 11px; color: #888; margin-top: 3px; }
 
-    .site-list {
-      padding: 8px 0;
-    }
+    .site-list { padding: 8px 0; }
 
     .site-row {
       display: flex;
@@ -42,43 +32,62 @@
     }
     .site-row:hover { background: #1a1a1a; }
 
-    .site-info {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+    .site-info { display: flex; align-items: center; gap: 10px; }
     .site-emoji { font-size: 18px; line-height: 1; }
-    .site-name { font-size: 13px; font-weight: 500; }
+    .site-name  { font-size: 13px; font-weight: 500; }
 
     /* Toggle switch */
-    .toggle {
-      position: relative;
-      width: 40px;
-      height: 22px;
-      flex-shrink: 0;
-    }
+    .toggle { position: relative; width: 40px; height: 22px; flex-shrink: 0; }
     .toggle input { opacity: 0; width: 0; height: 0; }
     .slider {
-      position: absolute;
-      inset: 0;
-      background: #333;
-      border-radius: 22px;
-      cursor: pointer;
-      transition: background 0.2s;
+      position: absolute; inset: 0;
+      background: #333; border-radius: 22px; cursor: pointer; transition: background 0.2s;
     }
     .slider::before {
-      content: "";
-      position: absolute;
-      width: 16px;
-      height: 16px;
-      left: 3px;
-      top: 3px;
-      background: #fff;
-      border-radius: 50%;
-      transition: transform 0.2s;
+      content: ""; position: absolute;
+      width: 16px; height: 16px; left: 3px; top: 3px;
+      background: #fff; border-radius: 50%; transition: transform 0.2s;
     }
     .toggle input:checked + .slider { background: #4f8ef7; }
     .toggle input:checked + .slider::before { transform: translateX(18px); }
+
+    /* Divider */
+    .divider { border: none; border-top: 1px solid #222; margin: 4px 0; }
+
+    /* Schedule section */
+    .schedule-times {
+      padding: 4px 18px 10px 46px;
+      display: none;
+    }
+    .schedule-times.visible { display: block; }
+
+    .time-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 5px 0;
+    }
+    .time-label { font-size: 12px; color: #aaa; }
+
+    input[type="time"] {
+      background: #1e1e1e;
+      border: 1px solid #333;
+      border-radius: 6px;
+      color: #f0f0f0;
+      font-size: 12px;
+      padding: 4px 8px;
+      outline: none;
+      cursor: pointer;
+    }
+    input[type="time"]:focus { border-color: #4f8ef7; }
+
+    .schedule-hint {
+      font-size: 10px;
+      color: #555;
+      padding: 0 18px 8px 46px;
+      line-height: 1.4;
+    }
+    .schedule-hint.visible { display: block; }
 
     footer {
       padding: 10px 18px;
@@ -142,17 +151,6 @@
 
     <div class="site-row">
       <div class="site-info">
-        <span class="site-emoji">💼</span>
-        <span class="site-name">LinkedIn</span>
-      </div>
-      <label class="toggle">
-        <input type="checkbox" id="toggle-linkedin" />
-        <span class="slider"></span>
-      </label>
-    </div>
-
-    <div class="site-row">
-      <div class="site-info">
         <span class="site-emoji">🤖</span>
         <span class="site-name">Reddit</span>
       </div>
@@ -162,6 +160,32 @@
       </label>
     </div>
   </div>
+
+  <hr class="divider" />
+
+  <!-- Schedule section -->
+  <div class="site-row">
+    <div class="site-info">
+      <span class="site-emoji">⏰</span>
+      <span class="site-name">定时开启</span>
+    </div>
+    <label class="toggle">
+      <input type="checkbox" id="schedule-enabled" />
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="schedule-times" id="schedule-times">
+    <div class="time-row">
+      <span class="time-label">开启时间</span>
+      <input type="time" id="schedule-start" value="09:00" />
+    </div>
+    <div class="time-row">
+      <span class="time-label">关闭时间</span>
+      <input type="time" id="schedule-end" value="18:00" />
+    </div>
+  </div>
+  <p class="schedule-hint" id="schedule-hint"></p>
 
   <footer>开启 = 隐藏推荐 feed</footer>
 

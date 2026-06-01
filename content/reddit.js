@@ -1,26 +1,16 @@
-// Reddit – hide homepage/subreddit feed, keep header + search
-
 const SITE_KEY = "reddit";
 
-// New Reddit (shreddit) — web components
-const FEED_SELECTORS_NEW = [
-  "shreddit-post",                   // individual post card (new Reddit)
-  "shreddit-ad-post",                // promoted posts
-  "reddit-feed-item",                // feed item wrapper
+const FEED_SELECTORS = [
+  "shreddit-post",
+  "shreddit-ad-post",
+  "reddit-feed-item",
+  ".thing.link",
+  ".promotedlink",
 ];
 
-// Old Reddit / fallback
-const FEED_SELECTORS_OLD = [
-  ".thing.link",                     // individual post (old Reddit)
-  ".promotedlink",                   // promoted post
-];
-
-const FEED_SELECTORS = [...FEED_SELECTORS_NEW, ...FEED_SELECTORS_OLD];
-
-// Hide on homepage and popular/all feeds, not on search or individual post pages
 function isFeedPage() {
   return location.pathname === "/" ||
-         /^\/r\/[^/]+\/?$/.test(location.pathname) || // subreddit listing
+         /^\/r\/[^/]+\/?$/.test(location.pathname) ||
          location.pathname.startsWith("/r/popular") ||
          location.pathname.startsWith("/r/all");
 }
@@ -32,8 +22,8 @@ function isSearchPage() {
 
 let observer = null;
 
-function applyHiding(enabled) {
-  if (enabled && isFeedPage() && !isSearchPage()) {
+function applyHiding(siteEnabled, schedule) {
+  if (siteEnabled && isWithinSchedule(schedule) && isFeedPage() && !isSearchPage()) {
     if (!observer) observer = watchAndHide(FEED_SELECTORS);
     else hideElements(FEED_SELECTORS);
   } else {
@@ -42,14 +32,18 @@ function applyHiding(enabled) {
   }
 }
 
-chrome.storage.sync.get(SITE_KEY, result => {
-  applyHiding(result[SITE_KEY] !== false);
-});
+function reload() {
+  chrome.storage.sync.get([SITE_KEY, "schedule"], r => {
+    applyHiding(r[SITE_KEY] !== false, r.schedule);
+  });
+}
+
+reload();
+setInterval(reload, 60000);
 
 chrome.runtime.onMessage.addListener(msg => {
-  if (msg.type === "TOGGLE" && msg.site === SITE_KEY) {
-    applyHiding(msg.enabled);
-  }
+  if (msg.type === "TOGGLE" && msg.site === SITE_KEY) reload();
+  if (msg.type === "SCHEDULE_CHANGED") reload();
 });
 
 let lastPath = location.pathname;
@@ -57,8 +51,6 @@ new MutationObserver(() => {
   if (location.pathname !== lastPath) {
     lastPath = location.pathname;
     if (observer) { observer.disconnect(); observer = null; }
-    chrome.storage.sync.get(SITE_KEY, result => {
-      applyHiding(result[SITE_KEY] !== false);
-    });
+    reload();
   }
 }).observe(document, { subtree: true, childList: true });

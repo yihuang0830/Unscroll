@@ -6,17 +6,29 @@
 
 ## English
 
-A minimal Chrome extension that hides recommendation feeds on Bilibili, 小红书 (Xiaohongshu), and Instagram — so you can search for what you came for and leave, without getting sucked into endless scrolling.
+A minimal Chrome extension that hides recommendation feeds on Bilibili, 小红书, YouTube, LinkedIn, Reddit, and Instagram — so you can search for what you came for and leave, without getting sucked into endless scrolling.
 
-**What it does:**
-- Hides the homepage recommendation feed on each site
-- Keeps the header, navigation bar, and search bar fully visible
-- Search results, video pages, and posts are completely unaffected
-- Per-site toggle in the popup — turn it off for any site in one click
+**Supported sites:**
+
+| Site | What's hidden | What's kept |
+|------|--------------|-------------|
+| **Bilibili** | Homepage recommendation grid | Header, search bar |
+| **小红书** | Explore/discovery feed | Header, search bar |
+| **Instagram** | Home feed & Stories | Top nav, search |
+| **YouTube** | Homepage feed & Shorts shelf; sidebar related videos on watch page | Header, search bar |
+| **LinkedIn** | Feed posts & right sidebar (News, Puzzles) | Top nav, search |
+| **Reddit** | Homepage & subreddit post listings | Header, search bar |
+
+Search results, video/post pages, and profile pages are **never affected** — the extension only hides feeds you didn't ask for.
+
+**Other features:**
+- Per-site toggle in the popup — disable any site in one click
+- Changes take effect immediately, no page refresh needed
+- Works on all Chromium-based browsers (Edge, Brave, Arc, Opera, Vivaldi)
 
 ### Installation
 
-> Chrome Web Store submission is pending. In the meantime, load it manually in under a minute.
+> Not yet on the Chrome Web Store. Load it manually in under a minute.
 
 **Step 1 — Download the extension**
 
@@ -37,8 +49,6 @@ Go to `chrome://extensions` in your browser address bar.
 
 Toggle the **Developer mode** switch in the top-right corner of the Extensions page.
 
-![Developer mode toggle](https://i.imgur.com/placeholder.png)
-
 **Step 4 — Load the extension**
 
 Click **Load unpacked** and select the `FocusFeed` folder (the one that contains `manifest.json`).
@@ -51,7 +61,7 @@ Click the puzzle piece icon 🧩 in your toolbar → click the pin icon next to 
 
 ### Usage
 
-- **All three sites are blocked by default** when you first install.
+- **All six sites are blocked by default** when you first install.
 - Click the FocusFeed icon to open the popup and toggle any site on or off.
 - Changes take effect immediately — no page refresh needed.
 
@@ -65,17 +75,29 @@ If the extension stops working after a site redesign:
 
 ## 中文
 
-一个轻量 Chrome 插件，屏蔽 Bilibili、小红书、Instagram 的推荐 feed，只留顶栏和搜索栏。搜完就走，再也不被刷不完的推荐带跑。
+一个轻量 Chrome 插件，屏蔽 Bilibili、小红书、Instagram、YouTube、LinkedIn、Reddit 的推荐 feed，只留顶栏和搜索栏。搜完就走，再也不被刷不完的推荐带跑。
 
-**功能：**
-- 自动隐藏各网站首页的推荐内容流
-- 顶栏、导航栏、搜索栏完全保留
-- 搜索结果页、视频页、帖子页正常显示，不受影响
+**支持的网站：**
+
+| 网站 | 隐藏内容 | 保留内容 |
+|------|---------|---------|
+| **Bilibili** | 首页推荐视频 | 顶栏、搜索栏 |
+| **小红书** | 发现页推荐流 | 顶栏、搜索栏 |
+| **Instagram** | 首页 Feed 和 Stories | 顶部导航、搜索 |
+| **YouTube** | 首页推荐 + Shorts；视频页侧边栏推荐 | 顶栏、搜索栏 |
+| **LinkedIn** | Feed 帖子 + 右侧边栏（新闻、游戏） | 顶部导航、搜索 |
+| **Reddit** | 首页和版块的帖子列表 | 顶栏、搜索栏 |
+
+搜索结果页、视频/帖子详情页、个人主页**不受任何影响**，只屏蔽你没有主动请求的推荐内容。
+
+**其他功能：**
 - 弹窗里可以对每个网站单独开关，一键切换
+- 修改立即生效，不需要刷新页面
+- 支持所有 Chromium 内核浏览器（Edge、Brave、Arc、Opera、Vivaldi）
 
 ### 安装方法
 
-> Chrome 应用商店审核中，目前请手动加载，不超过一分钟。
+> 尚未上架 Chrome 应用商店，目前请手动加载，不超过一分钟。
 
 **第一步 — 下载插件文件**
 
@@ -108,7 +130,7 @@ git clone https://github.com/yihuang0830/FocusFeed.git
 
 ### 使用方法
 
-- **安装后三个网站默认全部开启屏蔽。**
+- **安装后六个网站默认全部开启屏蔽。**
 - 点击 FocusFeed 图标打开弹窗，可以对每个网站单独开关。
 - 修改立即生效，不需要刷新页面。
 
@@ -124,15 +146,18 @@ git clone https://github.com/yihuang0830/FocusFeed.git
 
 ```
 FocusFeed/
-├── manifest.json         # Extension config (Manifest V3)
+├── manifest.json                   # Extension config (Manifest V3)
 ├── popup/
-│   ├── popup.html        # Toggle UI
-│   └── popup.js          # Reads/writes chrome.storage, notifies content scripts
+│   ├── popup.html                  # Toggle UI (6 sites)
+│   └── popup.js                    # Reads/writes chrome.storage, notifies content scripts
 └── content/
-    ├── common.js         # Shared hide/show utilities
+    ├── common.js                   # Shared hide/show utilities
     ├── bilibili.js/.css
     ├── xiaohongshu.js/.css
-    └── instagram.js/.css
+    ├── instagram.js/.css
+    ├── youtube.js/.css
+    ├── linkedin.js/.css
+    └── reddit.js/.css
 ```
 
 ## License

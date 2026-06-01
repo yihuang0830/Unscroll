@@ -7,7 +7,10 @@
   "host_permissions": [
     "*://*.bilibili.com/*",
     "*://*.xiaohongshu.com/*",
-    "*://*.instagram.com/*"
+    "*://*.instagram.com/*",
+    "*://*.youtube.com/*",
+    "*://*.linkedin.com/*",
+    "*://*.reddit.com/*"
   ],
   "action": {
     "default_popup": "popup/popup.html",
@@ -40,6 +43,24 @@
       "js": ["content/common.js", "content/instagram.js"],
       "css": ["content/instagram.css"],
       "run_at": "document_start"
+    },
+    {
+      "matches": ["*://*.youtube.com/*"],
+      "js": ["content/common.js", "content/youtube.js"],
+      "css": ["content/youtube.css"],
+      "run_at": "document_end"
+    },
+    {
+      "matches": ["*://*.linkedin.com/*"],
+      "js": ["content/common.js", "content/linkedin.js"],
+      "css": ["content/linkedin.css"],
+      "run_at": "document_end"
+    },
+    {
+      "matches": ["*://*.reddit.com/*"],
+      "js": ["content/common.js", "content/reddit.js"],
+      "css": ["content/reddit.css"],
+      "run_at": "document_end"
     }
   ]
 }

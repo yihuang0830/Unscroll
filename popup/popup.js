@@ -1,4 +1,4 @@
-const SITES = ["bilibili", "xiaohongshu", "instagram"];
+const SITES = ["bilibili", "xiaohongshu", "instagram", "youtube", "linkedin", "reddit"];
 
 function getDefaultState() {
   return Object.fromEntries(SITES.map(s => [s, true]));

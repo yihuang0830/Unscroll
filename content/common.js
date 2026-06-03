@@ -1,6 +1,6 @@
 // Shared utilities loaded before every site-specific content script.
 
-const HIDDEN_CLASS = "focusfeed-hidden";
+const HIDDEN_CLASS = "unscroll-hidden";
 
 function hideElements(selectors) {
   selectors.forEach(sel => {

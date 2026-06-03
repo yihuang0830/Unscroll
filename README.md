@@ -1,4 +1,4 @@
-# FocusFeed
+# Unscroll
 
 **English** | [中文](#中文)
 
@@ -34,12 +34,12 @@ Search results, video/post pages, and profile pages are **never affected**.
 
 Option A: Clone with git
 ```bash
-git clone https://github.com/yihuang0830/FocusFeed.git
+git clone https://github.com/yihuang0830/Unscroll.git
 ```
 
 Option B: Download ZIP
 - Click the green **Code** button on this page → **Download ZIP**
-- Unzip the folder somewhere you won't accidentally delete it (e.g. `~/Documents/FocusFeed`)
+- Unzip the folder somewhere you won't accidentally delete it (e.g. `~/Documents/Unscroll`)
 
 **Step 2 — Open Chrome Extensions**
 
@@ -51,18 +51,18 @@ Toggle the **Developer mode** switch in the top-right corner of the Extensions p
 
 **Step 4 — Load the extension**
 
-Click **Load unpacked** and select the `FocusFeed` folder (the one that contains `manifest.json`).
+Click **Load unpacked** and select the `Unscroll` folder (the one that contains `manifest.json`).
 
-The FocusFeed icon will appear in your Chrome toolbar.
+The Unscroll icon will appear in your Chrome toolbar.
 
 **Step 5 — Pin it (optional but recommended)**
 
-Click the puzzle piece icon 🧩 in your toolbar → click the pin icon next to FocusFeed so it's always one click away.
+Click the puzzle piece icon 🧩 in your toolbar → click the pin icon next to Unscroll so it's always one click away.
 
 ### Usage
 
 - **All five sites are blocked by default** when you first install.
-- Click the FocusFeed icon to open the popup and toggle any site on or off.
+- Click the Unscroll icon to open the popup and toggle any site on or off.
 - To use scheduled activation: toggle **定时开启 / Schedule** on, then set your start and end times. The popup shows whether blocking is currently active.
 - Overnight ranges work too (e.g. 22:00–06:00).
 
@@ -70,7 +70,7 @@ Click the puzzle piece icon 🧩 in your toolbar → click the pin icon next to 
 
 If the extension stops working after a site redesign:
 1. Pull the latest code (`git pull`) or re-download the ZIP
-2. Go to `chrome://extensions` → click the **refresh** icon on the FocusFeed card
+2. Go to `chrome://extensions` → click the **refresh** icon on the Unscroll card
 
 ---
 
@@ -104,12 +104,12 @@ If the extension stops working after a site redesign:
 
 方式 A：用 git 克隆
 ```bash
-git clone https://github.com/yihuang0830/FocusFeed.git
+git clone https://github.com/yihuang0830/Unscroll.git
 ```
 
 方式 B：下载压缩包
 - 点击本页面绿色的 **Code** 按钮 → **Download ZIP**
-- 解压到一个不会误删的位置（例如 `~/Documents/FocusFeed`）
+- 解压到一个不会误删的位置（例如 `~/Documents/Unscroll`）
 
 **第二步 — 打开 Chrome 扩展页面**
 
@@ -121,18 +121,18 @@ git clone https://github.com/yihuang0830/FocusFeed.git
 
 **第四步 — 加载插件**
 
-点击 **加载已解压的扩展程序**，选择 `FocusFeed` 文件夹（即包含 `manifest.json` 的那个文件夹）。
+点击 **加载已解压的扩展程序**，选择 `Unscroll` 文件夹（即包含 `manifest.json` 的那个文件夹）。
 
-加载成功后，FocusFeed 图标会出现在 Chrome 工具栏中。
+加载成功后，Unscroll 图标会出现在 Chrome 工具栏中。
 
 **第五步 — 固定到工具栏（可选，推荐）**
 
-点击工具栏右侧的拼图图标 🧩 → 找到 FocusFeed → 点击旁边的图钉图标，让它常驻工具栏。
+点击工具栏右侧的拼图图标 🧩 → 找到 Unscroll → 点击旁边的图钉图标，让它常驻工具栏。
 
 ### 使用方法
 
 - **安装后五个网站默认全部开启屏蔽。**
-- 点击 FocusFeed 图标打开弹窗，可以对每个网站单独开关。
+- 点击 Unscroll 图标打开弹窗，可以对每个网站单独开关。
 - 使用定时开启：打开 **⏰ 定时开启** 开关，设置开始和结束时间。弹窗会实时显示当前是否处于屏蔽状态。
 - 支持跨夜时间段，例如设置 22:00–06:00，在晚上到凌晨期间屏蔽。
 
@@ -140,14 +140,14 @@ git clone https://github.com/yihuang0830/FocusFeed.git
 
 如果某个网站改版导致插件失效：
 1. 拉取最新代码（`git pull`）或重新下载 ZIP
-2. 前往 `chrome://extensions` → 点击 FocusFeed 卡片上的**刷新**图标
+2. 前往 `chrome://extensions` → 点击 Unscroll 卡片上的**刷新**图标
 
 ---
 
 ## File Structure
 
 ```
-FocusFeed/
+Unscroll/
 ├── manifest.json                   # Extension config (Manifest V3)
 ├── popup/
 │   ├── popup.html                  # Toggle UI + schedule picker

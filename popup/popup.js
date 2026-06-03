@@ -51,8 +51,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     const checkbox = document.getElementById(`toggle-${site}`);
     checkbox.checked = state[site];
     checkbox.addEventListener("change", () => {
-      chrome.storage.sync.set({ [site]: checkbox.checked });
-      notifyAllTabs({ type: "TOGGLE", site, enabled: checkbox.checked });
+      chrome.storage.sync.set({ [site]: checkbox.checked }, () => {
+        notifyAllTabs({ type: "TOGGLE", site, enabled: checkbox.checked });
+      });
     });
   }
 
@@ -73,8 +74,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       start: startEl.value,
       end:   endEl.value,
     };
-    chrome.storage.sync.set({ schedule: updated });
-    notifyAllTabs({ type: "SCHEDULE_CHANGED" });
+    chrome.storage.sync.set({ schedule: updated }, () => {
+      notifyAllTabs({ type: "SCHEDULE_CHANGED" });
+    });
     updateScheduleUI(updated.enabled, updated.start, updated.end);
   }
 

@@ -81,6 +81,28 @@
     }
     input[type="time"]:focus { border-color: #4f8ef7; }
 
+    .day-picker {
+      display: flex;
+      gap: 4px;
+      padding: 6px 0 2px;
+    }
+    .day-btn {
+      flex: 1;
+      height: 26px;
+      background: #1e1e1e;
+      border: 1px solid #333;
+      border-radius: 5px;
+      color: #888;
+      font-size: 11px;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+    .day-btn.active {
+      background: #4f8ef7;
+      border-color: #4f8ef7;
+      color: #fff;
+    }
+
     .schedule-hint {
       display: none;
       font-size: 10px;
@@ -189,6 +211,15 @@
     <div class="time-row">
       <span class="time-label">关闭时间</span>
       <input type="time" id="schedule-end" value="18:00" />
+    </div>
+    <div class="day-picker" id="day-picker">
+      <button class="day-btn" data-day="1">一</button>
+      <button class="day-btn" data-day="2">二</button>
+      <button class="day-btn" data-day="3">三</button>
+      <button class="day-btn" data-day="4">四</button>
+      <button class="day-btn" data-day="5">五</button>
+      <button class="day-btn" data-day="6">六</button>
+      <button class="day-btn" data-day="0">日</button>
     </div>
   </div>
   <p class="schedule-hint" id="schedule-hint"></p>

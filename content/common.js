@@ -24,14 +24,19 @@ function watchAndHide(selectors) {
   return observer;
 }
 
-// Returns true when the current time falls inside the user's schedule,
+// Returns true when the current time and day of week fall inside the user's schedule,
 // or when no schedule is configured (always active).
 function isWithinSchedule(schedule) {
   if (!schedule || !schedule.enabled) return true;
 
   const now = new Date();
-  const cur = now.getHours() * 60 + now.getMinutes();
 
+  const activeDays = schedule.days && schedule.days.length > 0
+    ? schedule.days
+    : [0, 1, 2, 3, 4, 5, 6];
+  if (!activeDays.includes(now.getDay())) return false;
+
+  const cur = now.getHours() * 60 + now.getMinutes();
   const [sh, sm] = (schedule.start || "00:00").split(":").map(Number);
   const [eh, em] = (schedule.end   || "23:59").split(":").map(Number);
   const start = sh * 60 + sm;

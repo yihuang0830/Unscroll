@@ -23,6 +23,8 @@ Search results, video/post pages, and profile pages are **never affected**.
 **Features:**
 - Per-site toggle — disable any site in one click
 - **Scheduled activation** — set a time window (e.g. 09:00–18:00) during which blocking is active; outside those hours the feeds are visible as normal
+- **Day-of-week filter** — choose which days the schedule applies (e.g. weekdays only)
+- **Break timer** — temporarily unlock feeds for a set number of minutes; when the timer expires, blocking resumes automatically and a full-screen overlay reminds you to refocus
 - Changes take effect immediately, no page refresh needed
 - Works on all Chromium-based browsers (Edge, Brave, Arc, Opera, Vivaldi)
 
@@ -63,8 +65,8 @@ Click the puzzle piece icon 🧩 in your toolbar → click the pin icon next to 
 
 - **All five sites are blocked by default** when you first install.
 - Click the Unscroll icon to open the popup and toggle any site on or off.
-- To use scheduled activation: toggle **定时开启 / Schedule** on, then set your start and end times. The popup shows whether blocking is currently active.
-- Overnight ranges work too (e.g. 22:00–06:00).
+- **Scheduled activation:** toggle **定时开启 / Schedule** on, set your start and end times, and optionally select which days of the week it applies. The popup shows whether blocking is currently active. Overnight ranges work too (e.g. 22:00–06:00).
+- **Break timer:** toggle **放松一下 / Break** on, enter how many minutes you want, and click Start. Feeds unlock for that duration. When the timer expires, blocking resumes and a full-screen overlay appears to bring you back on track.
 
 ### Updating
 
@@ -93,6 +95,8 @@ If the extension stops working after a site redesign:
 **功能：**
 - 每个网站单独开关，一键切换
 - **定时开启** — 设置一个时间段（例如 09:00–18:00），只在这段时间内屏蔽 feed；时间段外 feed 正常显示。支持跨夜时间段（例如 22:00–06:00）
+- **选择周几** — 在定时基础上进一步指定哪几天生效（例如只在工作日开启）
+- **放松一下** — 设置一个分钟数，临时解锁 feed；倒计时结束后自动恢复屏蔽，并弹出全屏提示让你回到专注状态
 - 修改立即生效，不需要刷新页面
 - 支持所有 Chromium 内核浏览器（Edge、Brave、Arc、Opera、Vivaldi）
 
@@ -133,8 +137,8 @@ git clone https://github.com/yihuang0830/Unscroll.git
 
 - **安装后五个网站默认全部开启屏蔽。**
 - 点击 Unscroll 图标打开弹窗，可以对每个网站单独开关。
-- 使用定时开启：打开 **⏰ 定时开启** 开关，设置开始和结束时间。弹窗会实时显示当前是否处于屏蔽状态。
-- 支持跨夜时间段，例如设置 22:00–06:00，在晚上到凌晨期间屏蔽。
+- **定时开启：** 打开「定时开启」开关，设置开始和结束时间，并可选择哪几天生效。弹窗会实时显示当前是否处于屏蔽状态。支持跨夜时间段（例如 22:00–06:00）。
+- **放松一下：** 打开「放松一下」开关，输入分钟数，点击开始。feed 临时解锁，倒计时结束后自动恢复屏蔽，并弹出全屏提示。
 
 ### 更新插件
 
@@ -149,11 +153,13 @@ git clone https://github.com/yihuang0830/Unscroll.git
 ```
 Unscroll/
 ├── manifest.json                   # Extension config (Manifest V3)
+├── background.js                   # Service worker: break timer (alarms, notifications)
 ├── popup/
-│   ├── popup.html                  # Toggle UI + schedule picker
+│   ├── popup.html                  # Toggle UI + schedule + break timer
 │   └── popup.js                    # Reads/writes chrome.storage, notifies content scripts
 └── content/
-    ├── common.js                   # Shared utilities + isWithinSchedule()
+    ├── common.js                   # Shared utilities: isWithinSchedule(), timer helpers
+    ├── timer-overlay.js            # Full-screen overlay injected when break timer expires
     ├── bilibili.js/.css
     ├── xiaohongshu.js/.css
     ├── instagram.js/.css

@@ -39,9 +39,7 @@ function applyHiding(siteEnabled, schedule) {
 }
 
 function reload() {
-  chrome.storage.sync.get([SITE_KEY, "schedule"], r => {
-    applyHiding(r[SITE_KEY] !== false, r.schedule);
-  });
+  reloadWithTimer(SITE_KEY, applyHiding);
 }
 
 reload();

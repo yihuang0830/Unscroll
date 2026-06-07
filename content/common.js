@@ -7,6 +7,15 @@ function handleTimerMessage(msg, reloadFn) {
   if (msg.type === "RESTORE_BLOCK") { tempUnblocked = false; reloadFn(); }
 }
 
+function reloadWithTimer(siteKey, applyFn) {
+  chrome.storage.local.get("timer", ({ timer }) => {
+    tempUnblocked = !!(timer && timer.active && timer.endTime > Date.now());
+    chrome.storage.sync.get([siteKey, "schedule"], r => {
+      applyFn(r[siteKey] !== false, r.schedule);
+    });
+  });
+}
+
 const HIDDEN_CLASS = "unscroll-hidden";
 
 function hideElements(selectors) {

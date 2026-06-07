@@ -22,6 +22,11 @@ function isSearchOrVideoPage() {
 let observer = null;
 
 function applyHiding(siteEnabled, schedule) {
+  if (tempUnblocked) {
+    if (observer) { observer.disconnect(); observer = null; }
+    showElements(FEED_SELECTORS);
+    return;
+  }
   if (siteEnabled && isWithinSchedule(schedule) && !isSearchOrVideoPage()) {
     if (!observer) observer = watchAndHide(FEED_SELECTORS);
     else hideElements(FEED_SELECTORS);
@@ -43,6 +48,7 @@ setInterval(reload, 60000);
 chrome.runtime.onMessage.addListener(msg => {
   if (msg.type === "TOGGLE" && msg.site === SITE_KEY) reload();
   if (msg.type === "SCHEDULE_CHANGED") reload();
+  handleTimerMessage(msg, reload);
 });
 
 let lastPath = location.pathname;

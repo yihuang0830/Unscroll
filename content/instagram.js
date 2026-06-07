@@ -21,6 +21,11 @@ function isHomePage() {
 let observer = null;
 
 function applyHiding(siteEnabled, schedule) {
+  if (tempUnblocked) {
+    if (observer) { observer.disconnect(); observer = null; }
+    showFeed();
+    return;
+  }
   if (siteEnabled && isWithinSchedule(schedule) && isHomePage()) {
     hideFeed();
     if (!observer) {
@@ -45,6 +50,7 @@ setInterval(reload, 60000);
 chrome.runtime.onMessage.addListener(msg => {
   if (msg.type === "TOGGLE" && msg.site === SITE_KEY) reload();
   if (msg.type === "SCHEDULE_CHANGED") reload();
+  handleTimerMessage(msg, reload);
 });
 
 let lastPath = location.pathname;

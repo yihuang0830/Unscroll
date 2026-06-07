@@ -3,7 +3,10 @@
   "name": "Unscroll – Hide Social Distractions",
   "version": "1.1.0",
   "description": "Hide recommendation feeds on Bilibili, 小红书, YouTube, Reddit, and Instagram. Supports scheduled activation.",
-  "permissions": ["storage"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": ["storage", "alarms", "notifications", "scripting", "tabs"],
   "host_permissions": [
     "*://*.bilibili.com/*",
     "*://*.xiaohongshu.com/*",

@@ -112,6 +112,58 @@
     }
     .schedule-hint.visible { display: block; }
 
+    .timer-section {
+      padding: 4px 18px 10px 46px;
+      display: none;
+    }
+    .timer-section.visible { display: block; }
+    .timer-input-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 0;
+    }
+    .timer-minutes-input {
+      width: 48px;
+      background: #1e1e1e;
+      border: 1px solid #333;
+      border-radius: 6px;
+      color: #f0f0f0;
+      font-size: 12px;
+      padding: 4px 6px;
+      outline: none;
+      text-align: center;
+      -moz-appearance: textfield;
+    }
+    .timer-minutes-input::-webkit-inner-spin-button,
+    .timer-minutes-input::-webkit-outer-spin-button { -webkit-appearance: none; }
+    .timer-minutes-input:focus { border-color: #4f8ef7; }
+    .timer-unit { font-size: 12px; color: #aaa; flex: 1; }
+    .timer-btn {
+      padding: 4px 12px;
+      border: none;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .timer-btn:hover { opacity: 0.8; }
+    .timer-btn-start  { background: #4f8ef7; color: #fff; }
+    .timer-btn-cancel { background: #333; color: #aaa; }
+    .timer-countdown {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4px 0;
+    }
+    .timer-remaining {
+      font-size: 20px;
+      font-weight: 600;
+      color: #4f8ef7;
+      font-variant-numeric: tabular-nums;
+    }
+
     footer {
       padding: 8px 18px;
       border-top: 1px solid #222;
@@ -223,6 +275,36 @@
     </div>
   </div>
   <p class="schedule-hint" id="schedule-hint"></p>
+
+  <hr class="divider" />
+
+  <!-- Timer section -->
+  <div class="site-row">
+    <div class="site-info">
+      <span class="site-emoji">⏱</span>
+      <span class="site-name">放松一下</span>
+    </div>
+    <label class="toggle">
+      <input type="checkbox" id="timer-toggle" />
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="timer-section" id="timer-section">
+    <div id="timer-start-view">
+      <div class="timer-input-row">
+        <input type="number" id="timer-minutes" class="timer-minutes-input" value="10" min="1" max="180" />
+        <span class="timer-unit">分钟后关闭</span>
+        <button id="timer-start-btn" class="timer-btn timer-btn-start">开始</button>
+      </div>
+    </div>
+    <div id="timer-active-view" style="display:none">
+      <div class="timer-countdown">
+        <span class="timer-remaining" id="timer-remaining">--:--</span>
+        <button id="timer-cancel-btn" class="timer-btn timer-btn-cancel">取消</button>
+      </div>
+    </div>
+  </div>
 
   <footer><a href="https://github.com/yihuang0830" target="_blank">github: yihuang0830</a></footer>
 

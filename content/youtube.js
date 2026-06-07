@@ -21,6 +21,11 @@ function isSearchPage() { return location.pathname === "/results"; }
 let observer = null;
 
 function applyHiding(siteEnabled, schedule) {
+  if (tempUnblocked) {
+    if (observer) { observer.disconnect(); observer = null; }
+    showElements([...FEED_SELECTORS, ...SIDEBAR_SELECTORS]);
+    return;
+  }
   const active = siteEnabled && isWithinSchedule(schedule);
   const selectors = active && isHomePage()  ? FEED_SELECTORS
                   : active && isWatchPage() ? SIDEBAR_SELECTORS
@@ -47,6 +52,7 @@ setInterval(reload, 60000);
 chrome.runtime.onMessage.addListener(msg => {
   if (msg.type === "TOGGLE" && msg.site === SITE_KEY) reload();
   if (msg.type === "SCHEDULE_CHANGED") reload();
+  handleTimerMessage(msg, reload);
 });
 
 let lastPath = location.pathname;

@@ -115,4 +115,72 @@ document.addEventListener("DOMContentLoaded", async () => {
   scheduleEnabledEl.addEventListener("change", saveSchedule);
   startEl.addEventListener("change", saveSchedule);
   endEl.addEventListener("change",   saveSchedule);
+
+  // Timer
+  const timerToggleEl    = document.getElementById("timer-toggle");
+  const timerSectionEl   = document.getElementById("timer-section");
+  const timerStartView   = document.getElementById("timer-start-view");
+  const timerActiveView  = document.getElementById("timer-active-view");
+  const timerMinutesEl   = document.getElementById("timer-minutes");
+  const timerStartBtn    = document.getElementById("timer-start-btn");
+  const timerCancelBtn   = document.getElementById("timer-cancel-btn");
+  const timerRemainingEl = document.getElementById("timer-remaining");
+
+  let countdownInterval = null;
+
+  function formatTime(ms) {
+    const s = Math.max(0, Math.round(ms / 1000));
+    return `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
+  }
+
+  function showTimerActive(endTime) {
+    timerStartView.style.display  = "none";
+    timerActiveView.style.display = "block";
+    timerRemainingEl.textContent  = formatTime(endTime - Date.now());
+    clearInterval(countdownInterval);
+    countdownInterval = setInterval(() => {
+      const left = endTime - Date.now();
+      if (left <= 0) {
+        clearInterval(countdownInterval);
+        showTimerIdle();
+      } else {
+        timerRemainingEl.textContent = formatTime(left);
+      }
+    }, 1000);
+  }
+
+  function showTimerIdle() {
+    timerStartView.style.display  = "block";
+    timerActiveView.style.display = "none";
+  }
+
+  chrome.storage.local.get("timer", ({ timer }) => {
+    const active = timer && timer.active && timer.endTime > Date.now();
+    if (active) {
+      timerToggleEl.checked = true;
+      timerSectionEl.classList.add("visible");
+      showTimerActive(timer.endTime);
+    } else {
+      showTimerIdle();
+    }
+  });
+
+  timerToggleEl.addEventListener("change", () => {
+    timerSectionEl.classList.toggle("visible", timerToggleEl.checked);
+  });
+
+  timerStartBtn.addEventListener("click", () => {
+    const minutes = parseInt(timerMinutesEl.value, 10);
+    if (!minutes || minutes < 1 || minutes > 180) return;
+    chrome.runtime.sendMessage({ type: "START_TIMER", minutes }, resp => {
+      showTimerActive(resp.endTime);
+    });
+  });
+
+  timerCancelBtn.addEventListener("click", () => {
+    chrome.runtime.sendMessage({ type: "CANCEL_TIMER" }, () => {
+      clearInterval(countdownInterval);
+      showTimerIdle();
+    });
+  });
 });

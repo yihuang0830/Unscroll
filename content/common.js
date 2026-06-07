@@ -1,5 +1,12 @@
 // Shared utilities loaded before every site-specific content script.
 
+let tempUnblocked = false;
+
+function handleTimerMessage(msg, reloadFn) {
+  if (msg.type === "TEMP_UNBLOCK") { tempUnblocked = true; reloadFn(); }
+  if (msg.type === "RESTORE_BLOCK") { tempUnblocked = false; reloadFn(); }
+}
+
 const HIDDEN_CLASS = "unscroll-hidden";
 
 function hideElements(selectors) {
